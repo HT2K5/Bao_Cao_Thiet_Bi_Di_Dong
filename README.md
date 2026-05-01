@@ -1,0 +1,5 @@
+"# Bao Cao Thiet Bi Di Dong" 
+"" 
+"## Branches:" 
+"- feature/hieu - Hieu's work" 
+"- feature/cong - Cong's work" 
