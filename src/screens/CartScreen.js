@@ -111,6 +111,15 @@ export default function CartScreen({ navigation }) {
               overshootRight={false}
             >
               <View style={styles.cartItem}>
+                <TouchableOpacity 
+                  style={styles.removeBtn} 
+                  onPress={function() {
+                    removeItem(item.id);
+                  }}
+                >
+                  <Ionicons name="close" size={16} color="#999" />
+                </TouchableOpacity>
+
                 <View style={styles.itemImg}>
                   {item.image ? (
                     <Image source={item.image} style={styles.img} />
@@ -120,15 +129,6 @@ export default function CartScreen({ navigation }) {
                 </View>
 
                 <View style={styles.itemInfo}>
-                  <TouchableOpacity 
-                    style={styles.removeBtn} 
-                    onPress={function() {
-                      removeItem(item.id);
-                    }}
-                  >
-                    <Ionicons name="close" size={16} color="#999" />
-                  </TouchableOpacity>
-                  
                   <Text style={styles.itemName} numberOfLines={1}>
                     {item.name}
                   </Text>
@@ -335,16 +335,16 @@ const styles = StyleSheet.create({
   },
   removeBtn: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 4,
+    top: 8,
+    right: 8,
+    padding: 6,
+    zIndex: 10,
   },
   itemName: {
     fontSize: 14,
     fontWeight: '700',
     color: '#1A1A1A',
     marginBottom: 3,
-    paddingRight: 24,
   },
   itemBrand: {
     fontSize: 11,
