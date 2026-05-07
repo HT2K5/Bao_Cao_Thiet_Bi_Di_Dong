@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { deliveryMethods, paymentMethods, products } from '../data/TempData';
+import { addOrder } from '../services/OrderService';
 
 const ITEMS = products.slice(0, 4);
 const SUBTOTAL = ITEMS.reduce(function(sum, p) {
@@ -46,22 +47,52 @@ export default function CheckOutScreen({ navigation, route }) {
   const [selectedAddress, setSelectedAddress] = useState(SAVED_ADDRESSES[0]);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
+  // Lấy items từ route params (từ CartScreen) hoặc dùng default
+  const cartItems = route.params?.items || ITEMS.map(function(item) {
+    return { ...item, qty: 1 };
+  });
+
   const selectedDelivery = deliveryMethods.find(function(d) {
     return d.id === delivery;
   });
 
-  const deliveryFee = selectedDelivery ? selectedDelivery.fee : 0;
-  const total = Number((SUBTOTAL_FIXED + TAX + deliveryFee).toFixed(2));
+  const selectedPayment = paymentMethods.find(function(p) {
+    return p.id === payment;
+  });
 
-  function handleOrder() {
-    Alert.alert('🎉 Đặt hàng thành công!', 'Tổng cộng: $' + total, [
-      {
-        text: 'OK',
-        onPress: function() {
-          navigation.navigate('Main', { screen: 'CartTab' });
+  const deliveryFee = selectedDelivery ? selectedDelivery.fee : 0;
+  const total = route.params?.total || Number((SUBTOTAL_FIXED + TAX + deliveryFee).toFixed(2));
+
+  async function handleOrder() {
+    // Lưu đơn hàng vào AsyncStorage
+    const orderData = {
+      items: cartItems,
+      total: total,
+      address: selectedAddress.address,
+      deliveryMethod: selectedDelivery.label,
+      paymentMethod: selectedPayment.label,
+    };
+
+    const newOrder = await addOrder(orderData);
+
+    if (newOrder) {
+      Alert.alert('🎉 Đặt hàng thành công!', 'Mã đơn hàng: #' + newOrder.id, [
+        {
+          text: 'Xem đơn hàng',
+          onPress: function() {
+            navigation.navigate('OrderHistory');
+          },
         },
-      },
-    ]);
+        {
+          text: 'Về trang chủ',
+          onPress: function() {
+            navigation.navigate('Main', { screen: 'HomeTab' });
+          },
+        },
+      ]);
+    } else {
+      Alert.alert('Lỗi', 'Không thể tạo đơn hàng. Vui lòng thử lại!');
+    }
   }
 
   function openAddressModal() {

@@ -59,7 +59,9 @@ export default function ProfileScreen({ navigation }) {
   }
 
   function handleMenu(id) {
-    if (id === 'logout') {
+    if (id === 'orders') {
+      navigation.navigate('OrderHistory');
+    } else if (id === 'logout') {
       Alert.alert('Đăng xuất', 'Bạn có chắc muốn đăng xuất?', [
         { text: 'Huỷ', style: 'cancel' },
         { 
