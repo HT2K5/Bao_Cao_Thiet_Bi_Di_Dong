@@ -10,15 +10,10 @@ import {
   Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { deliveryMethods, paymentMethods, products } from '../data/TempData';
-import { addOrder } from '../services/OrderService';
+import { deliveryMethods, paymentMethods } from '../data/tempdata';
+import { useOrders } from '../context/OrderContext';
 
-const ITEMS = products.slice(0, 4);
-const SUBTOTAL = ITEMS.reduce(function(sum, p) {
-  return sum + p.price;
-}, 0);
-const SUBTOTAL_FIXED = Number(SUBTOTAL.toFixed(2));
-const TAX = Number((SUBTOTAL * 0.08).toFixed(2));
+import { useCart } from '../context/CartContext';
 
 const SAVED_ADDRESSES = [
   {
@@ -42,56 +37,61 @@ const SAVED_ADDRESSES = [
 ];
 
 export default function CheckOutScreen({ navigation, route }) {
+  const { createOrder } = useOrders();
+
+  const { clearCart } = useCart();
   const [delivery, setDelivery] = useState('standard');
   const [payment, setPayment] = useState('card');
   const [selectedAddress, setSelectedAddress] = useState(SAVED_ADDRESSES[0]);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const { items = [], total = 0 } = route.params || {};
 
-  // Lấy items từ route params (từ CartScreen) hoặc dùng default
-  const cartItems = route.params?.items || ITEMS.map(function(item) {
-    return { ...item, qty: 1 };
-  });
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-  const selectedDelivery = deliveryMethods.find(function(d) {
+  const subtotalFixed = Number(subtotal.toFixed(2));
+
+  const TAX = Number((subtotal * 0.08).toFixed(2));
+
+  const selectedDelivery = deliveryMethods.find(function (d) {
     return d.id === delivery;
   });
 
-  const selectedPayment = paymentMethods.find(function(p) {
-    return p.id === payment;
-  });
-
   const deliveryFee = selectedDelivery ? selectedDelivery.fee : 0;
-  const total = route.params?.total || Number((SUBTOTAL_FIXED + TAX + deliveryFee).toFixed(2));
+  const finalTotal = Number((subtotalFixed + TAX + deliveryFee).toFixed(2));
 
   async function handleOrder() {
-    // Lưu đơn hàng vào AsyncStorage
-    const orderData = {
-      items: cartItems,
-      total: total,
-      address: selectedAddress.address,
-      deliveryMethod: selectedDelivery.label,
-      paymentMethod: selectedPayment.label,
-    };
+    try {
+      createOrder({
+        items,
 
-    const newOrder = await addOrder(orderData);
+        total: finalTotal,
 
-    if (newOrder) {
-      Alert.alert('🎉 Đặt hàng thành công!', 'Mã đơn hàng: #' + newOrder.id, [
-        {
-          text: 'Xem đơn hàng',
-          onPress: function() {
-            navigation.navigate('OrderHistory');
+        payment,
+
+        delivery,
+
+        address: selectedAddress,
+      });
+
+      clearCart();
+
+      Alert.alert(
+        '🎉 Đặt hàng thành công!',
+        'Đơn hàng của bạn đã được ghi nhận.',
+        [
+          {
+            text: 'OK',
+
+            onPress: function () {
+              navigation.navigate('MainTab', {
+                screen: 'Home',
+              });
+            },
           },
-        },
-        {
-          text: 'Về trang chủ',
-          onPress: function() {
-            navigation.navigate('Main', { screen: 'HomeTab' });
-          },
-        },
-      ]);
-    } else {
-      Alert.alert('Lỗi', 'Không thể tạo đơn hàng. Vui lòng thử lại!');
+        ]
+      );
+    } catch (error) {
+      console.log('ORDER ERROR:', error);
     }
   }
 
@@ -114,12 +114,12 @@ export default function CheckOutScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle='dark-content' backgroundColor='#FFFFFF' />
 
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backBtn} onPress={goBack}>
-          <Ionicons name="chevron-back" size={22} color="#1A1A1A" />
+          <Ionicons name='chevron-back' size={22} color='#1A1A1A' />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Thanh toán</Text>
         <View style={{ width: 36 }} />
@@ -134,7 +134,7 @@ export default function CheckOutScreen({ navigation, route }) {
           <Text style={styles.sectionTitle}>Địa chỉ giao hàng</Text>
           <View style={styles.addressCard}>
             <View style={styles.addressIcon}>
-              <Ionicons name="location" size={20} color="#2E7D32" />
+              <Ionicons name='location' size={20} color='#2E7D32' />
             </View>
 
             <View style={{ flex: 1 }}>
@@ -153,7 +153,7 @@ export default function CheckOutScreen({ navigation, route }) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Phương thức giao hàng</Text>
           <View style={styles.methodRow}>
-            {deliveryMethods.map(function(m) {
+            {deliveryMethods.map(function (m) {
               const isActive = delivery === m.id;
 
               return (
@@ -163,16 +163,16 @@ export default function CheckOutScreen({ navigation, route }) {
                     styles.methodCard,
                     isActive && styles.methodCardActive,
                   ]}
-                  onPress={function() {
+                  onPress={function () {
                     setDelivery(m.id);
                   }}
                 >
                   {isActive && (
                     <View style={styles.checkIcon}>
                       <Ionicons
-                        name="checkmark-circle"
+                        name='checkmark-circle'
                         size={18}
-                        color="#2E7D32"
+                        color='#2E7D32'
                       />
                     </View>
                   )}
@@ -195,10 +195,7 @@ export default function CheckOutScreen({ navigation, route }) {
                   <Text style={styles.methodDesc}>{m.desc}</Text>
 
                   <Text
-                    style={[
-                      styles.methodFee,
-                      isActive && { color: '#2E7D32' },
-                    ]}
+                    style={[styles.methodFee, isActive && { color: '#2E7D32' }]}
                   >
                     {m.feeLabel}
                   </Text>
@@ -211,19 +208,19 @@ export default function CheckOutScreen({ navigation, route }) {
         {/* Phương thức thanh toán */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Phương thức thanh toán</Text>
-          {paymentMethods.map(function(p) {
+          {paymentMethods.map(function (p) {
             const isActive = payment === p.id;
 
             return (
               <TouchableOpacity
                 key={p.id}
                 style={styles.paymentRow}
-                onPress={function() {
+                onPress={function () {
                   setPayment(p.id);
                 }}
               >
                 <View style={styles.paymentIcon}>
-                  <Ionicons name={p.icon} size={20} color="#2E7D32" />
+                  <Ionicons name={p.icon} size={20} color='#2E7D32' />
                 </View>
 
                 <View style={{ flex: 1 }}>
@@ -233,9 +230,7 @@ export default function CheckOutScreen({ navigation, route }) {
                   ) : null}
                 </View>
 
-                <View
-                  style={[styles.radio, isActive && styles.radioActive]}
-                >
+                <View style={[styles.radio, isActive && styles.radioActive]}>
                   {isActive && <View style={styles.radioDot} />}
                 </View>
               </TouchableOpacity>
@@ -249,9 +244,9 @@ export default function CheckOutScreen({ navigation, route }) {
           <View style={styles.summaryCard}>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>
-                Tạm tính ({ITEMS.length} sản phẩm)
+                Tạm tính ({items.length} sản phẩm)
               </Text>
-              <Text style={styles.summaryValue}>${SUBTOTAL_FIXED}</Text>
+              <Text style={styles.summaryValue}>${subtotalFixed}</Text>
             </View>
 
             <View style={styles.summaryRow}>
@@ -270,7 +265,7 @@ export default function CheckOutScreen({ navigation, route }) {
 
             <View style={styles.summaryRow}>
               <Text style={styles.totalLabel}>Tổng cộng</Text>
-              <Text style={styles.totalValue}>${total}</Text>
+              <Text style={styles.totalValue}>${finalTotal}</Text>
             </View>
           </View>
         </View>
@@ -283,8 +278,8 @@ export default function CheckOutScreen({ navigation, route }) {
           activeOpacity={0.85}
           onPress={handleOrder}
         >
-          <Text style={styles.orderText}>Đặt hàng ngay ${total}</Text>
-          <Ionicons name="arrow-forward" size={18} color="#fff" />
+          <Text style={styles.orderText}>Đặt hàng ngay ${finalTotal}</Text>
+          <Ionicons name='arrow-forward' size={18} color='#fff' />
         </TouchableOpacity>
       </View>
 
@@ -292,7 +287,7 @@ export default function CheckOutScreen({ navigation, route }) {
       <Modal
         visible={showAddressModal}
         transparent
-        animationType="slide"
+        animationType='slide'
         onRequestClose={closeAddressModal}
       >
         <View style={styles.modalOverlay}>
@@ -300,12 +295,12 @@ export default function CheckOutScreen({ navigation, route }) {
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Chọn địa chỉ giao hàng</Text>
               <TouchableOpacity onPress={closeAddressModal}>
-                <Ionicons name="close" size={24} color="#1A1A1A" />
+                <Ionicons name='close' size={24} color='#1A1A1A' />
               </TouchableOpacity>
             </View>
 
             <ScrollView>
-              {SAVED_ADDRESSES.map(function(addr) {
+              {SAVED_ADDRESSES.map(function (addr) {
                 const isSelected = selectedAddress.id === addr.id;
 
                 return (
@@ -315,12 +310,12 @@ export default function CheckOutScreen({ navigation, route }) {
                       styles.addressOption,
                       isSelected && styles.addressOptionActive,
                     ]}
-                    onPress={function() {
+                    onPress={function () {
                       selectAddress(addr);
                     }}
                   >
                     <View style={styles.addressOptionIcon}>
-                      <Ionicons name="location" size={18} color="#2E7D32" />
+                      <Ionicons name='location' size={18} color='#2E7D32' />
                     </View>
 
                     <View style={{ flex: 1 }}>
@@ -337,9 +332,9 @@ export default function CheckOutScreen({ navigation, route }) {
 
                     {isSelected && (
                       <Ionicons
-                        name="checkmark-circle"
+                        name='checkmark-circle'
                         size={22}
-                        color="#2E7D32"
+                        color='#2E7D32'
                       />
                     )}
                   </TouchableOpacity>
@@ -348,7 +343,7 @@ export default function CheckOutScreen({ navigation, route }) {
             </ScrollView>
 
             <TouchableOpacity style={styles.addNewBtn}>
-              <Ionicons name="add-circle-outline" size={20} color="#2E7D32" />
+              <Ionicons name='add-circle-outline' size={20} color='#2E7D32' />
               <Text style={styles.addNewText}>Thêm địa chỉ mới</Text>
             </TouchableOpacity>
           </View>

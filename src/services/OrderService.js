@@ -6,7 +6,9 @@ const ORDERS_KEY = '@farmdirect_orders';
 function generateOrderId() {
   const timestamp = Date.now();
   const random = Math.floor(Math.random() * 1000);
-  return 'ORD' + timestamp.toString().slice(-6) + random.toString().padStart(3, '0');
+  return (
+    'ORD' + timestamp.toString().slice(-6) + random.toString().padStart(3, '0')
+  );
 }
 
 // Lấy tất cả đơn hàng
@@ -16,7 +18,7 @@ export async function getOrders() {
     if (ordersJson) {
       const orders = JSON.parse(ordersJson);
       // Sắp xếp theo ngày mới nhất
-      return orders.sort(function(a, b) {
+      return orders.sort(function (a, b) {
         return new Date(b.timestamp) - new Date(a.timestamp);
       });
     }
@@ -31,7 +33,7 @@ export async function getOrders() {
 export async function addOrder(orderData) {
   try {
     const orders = await getOrders();
-    
+
     const newOrder = {
       id: generateOrderId(),
       date: formatDate(new Date()),
@@ -40,7 +42,7 @@ export async function addOrder(orderData) {
       statusText: 'Đang giao',
       items: orderData.items.length,
       total: orderData.total,
-      products: orderData.items.map(function(item) {
+      products: orderData.items.map(function (item) {
         return {
           name: item.name,
           qty: item.qty,
@@ -51,10 +53,10 @@ export async function addOrder(orderData) {
       deliveryMethod: orderData.deliveryMethod,
       paymentMethod: orderData.paymentMethod,
     };
-    
+
     orders.unshift(newOrder);
     await AsyncStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
-    
+
     return newOrder;
   } catch (error) {
     console.error('Error adding order:', error);
@@ -66,13 +68,13 @@ export async function addOrder(orderData) {
 export async function updateOrderStatus(orderId, status, statusText) {
   try {
     const orders = await getOrders();
-    const updatedOrders = orders.map(function(order) {
+    const updatedOrders = orders.map(function (order) {
       if (order.id === orderId) {
         return { ...order, status: status, statusText: statusText };
       }
       return order;
     });
-    
+
     await AsyncStorage.setItem(ORDERS_KEY, JSON.stringify(updatedOrders));
     return true;
   } catch (error) {

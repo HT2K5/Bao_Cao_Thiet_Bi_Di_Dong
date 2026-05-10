@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 function Placeholder({ label, icon }) {
   return (
     <View style={styles.wrap}>
-      <Ionicons name={icon} size={52} color="#2E7D32" />
+      <Ionicons name={icon} size={52} color='#2E7D32' />
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.sub}>Coming soon</Text>
     </View>
@@ -13,15 +13,15 @@ function Placeholder({ label, icon }) {
 }
 
 export function HomeScreen() {
-  return <Placeholder label="Trang chủ" icon="home-outline" />;
+  return <Placeholder label='Trang chủ' icon='home-outline' />;
 }
 
 export function CategoryScreen() {
-  return <Placeholder label="Danh mục" icon="grid-outline" />;
+  return <Placeholder label='Danh mục' icon='grid-outline' />;
 }
 
 export function OrderScreen() {
-  return <Placeholder label="Đơn hàng" icon="receipt-outline" />;
+  return <Placeholder label='Đơn hàng' icon='receipt-outline' />;
 }
 
 const styles = StyleSheet.create({

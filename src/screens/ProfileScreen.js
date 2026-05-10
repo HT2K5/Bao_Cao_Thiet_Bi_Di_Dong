@@ -10,8 +10,13 @@ import {
   TextInput,
   Image,
 } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Ionicons } from '@expo/vector-icons';
-import { user as initialUser } from '../data/TempData';
+
+import { user as initialUser } from '../data/tempdata';
+
 import * as ImagePicker from 'expo-image-picker';
 
 const MENU_ITEMS = [
@@ -23,11 +28,15 @@ const MENU_ITEMS = [
 ];
 
 export default function ProfileScreen({ navigation }) {
+
   const [user, setUser] = useState(initialUser);
+
   const [editingName, setEditingName] = useState(false);
+
   const [tempName, setTempName] = useState(user.name);
 
   async function pickImage() {
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
@@ -36,175 +45,355 @@ export default function ProfileScreen({ navigation }) {
     });
 
     if (!result.canceled) {
-      setUser(function(prev) {
-        return { ...prev, avatar: result.assets[0].uri };
+
+      setUser(function (prev) {
+        return {
+          ...prev,
+          avatar: result.assets[0].uri,
+        };
       });
     }
   }
 
   function saveName() {
-    setUser(function(prev) {
-      return { ...prev, name: tempName };
+
+    setUser(function (prev) {
+      return {
+        ...prev,
+        name: tempName,
+      };
     });
+
     setEditingName(false);
   }
 
   function startEditName() {
+
     setTempName(user.name);
+
     setEditingName(true);
   }
 
   function cancelEditName() {
+
     setEditingName(false);
   }
 
+  async function logout() {
+
+    try {
+
+      await AsyncStorage.removeItem('user');
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'LoginAndSignUp' }],
+      });
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  }
+
   function handleMenu(id) {
+
     if (id === 'orders') {
-      navigation.navigate('OrderHistory');
-    } else if (id === 'logout') {
-      Alert.alert('Đăng xuất', 'Bạn có chắc muốn đăng xuất?', [
-        { text: 'Huỷ', style: 'cancel' },
-        { 
-          text: 'Đăng xuất', 
-          style: 'destructive', 
-          onPress: function() {} 
-        },
-      ]);
+
+      navigation.navigate('OrderScreen');
+
+      return;
+    }
+
+    if (id === 'logout') {
+
+      Alert.alert(
+        'Đăng xuất',
+        'Bạn có chắc muốn đăng xuất?',
+        [
+          {
+            text: 'Huỷ',
+            style: 'cancel',
+          },
+          {
+            text: 'Đăng xuất',
+            style: 'destructive',
+            onPress: logout,
+          },
+        ]
+      );
+
+      return;
     }
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      {/* Header */}
+    <View style={styles.container}>
+
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#FFFFFF"
+      />
+
+      {/* HEADER */}
+
       <View style={styles.header}>
+
         <View style={styles.headerLeft}>
+
           <View style={styles.avatarCircle}>
-            <Ionicons name="person" size={18} color="#fff" />
+            <Ionicons
+              name="person"
+              size={18}
+              color="#fff"
+            />
           </View>
-          <Text style={styles.brandName}>FarmDirect</Text>
+
+          <Text style={styles.brandName}>
+            FarmDirect
+          </Text>
+
         </View>
-        <Ionicons name="cart-outline" size={26} color="#2E7D32" />
+
+        {/* CART */}
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Cart')}
+        >
+          <Ionicons
+            name="cart-outline"
+            size={26}
+            color="#2E7D32"
+          />
+        </TouchableOpacity>
+
       </View>
 
-      <ScrollView 
-        showsVerticalScrollIndicator={false} 
-        contentContainerStyle={{ paddingBottom: 40 }}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 40,
+        }}
       >
-        {/* Profile Card */}
+
+        {/* PROFILE */}
+
         <View style={styles.profileCard}>
-          <TouchableOpacity style={styles.avatarWrap} onPress={pickImage}>
+
+          <TouchableOpacity
+            style={styles.avatarWrap}
+            onPress={pickImage}
+          >
+
             {user.avatar ? (
-              <Image source={{ uri: user.avatar }} style={styles.avatarImg} />
+
+              <Image
+                source={{ uri: user.avatar }}
+                style={styles.avatarImg}
+              />
+
             ) : (
+
               <View style={styles.avatarBig}>
-                <Ionicons name="person" size={44} color="#fff" />
+
+                <Ionicons
+                  name="person"
+                  size={44}
+                  color="#fff"
+                />
+
               </View>
             )}
+
             <View style={styles.editBadge}>
-              <Ionicons name="camera" size={12} color="#fff" />
+
+              <Ionicons
+                name="camera"
+                size={12}
+                color="#fff"
+              />
+
             </View>
+
           </TouchableOpacity>
 
+          {/* EDIT NAME */}
+
           {editingName ? (
+
             <View style={styles.nameEdit}>
+
               <TextInput
                 style={styles.nameInput}
                 value={tempName}
                 onChangeText={setTempName}
                 autoFocus
               />
+
               <View style={styles.nameActions}>
-                <TouchableOpacity onPress={cancelEditName}>
-                  <Text style={styles.cancelBtn}>Hủy</Text>
+
+                <TouchableOpacity
+                  onPress={cancelEditName}
+                >
+                  <Text style={styles.cancelBtn}>
+                    Hủy
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={saveName}>
-                  <Text style={styles.saveBtn}>Lưu</Text>
+
+                <TouchableOpacity
+                  onPress={saveName}
+                >
+                  <Text style={styles.saveBtn}>
+                    Lưu
+                  </Text>
                 </TouchableOpacity>
+
               </View>
+
             </View>
+
           ) : (
-            <TouchableOpacity onPress={startEditName}>
-              <Text style={styles.userName}>{user.name}</Text>
-              <Ionicons 
-                name="pencil" 
-                size={14} 
-                color="#2E7D32" 
-                style={{ alignSelf: 'center', marginTop: 4 }} 
+
+            <TouchableOpacity
+              onPress={startEditName}
+            >
+
+              <Text style={styles.userName}>
+                {user.name}
+              </Text>
+
+              <Ionicons
+                name="pencil"
+                size={14}
+                color="#2E7D32"
+                style={{
+                  alignSelf: 'center',
+                  marginTop: 4,
+                }}
               />
+
             </TouchableOpacity>
           )}
 
-          <Text style={styles.userEmail}>{user.email}</Text>
-          
+          <Text style={styles.userEmail}>
+            {user.email}
+          </Text>
+
           {user.verified && (
+
             <View style={styles.verifiedPill}>
-              <Ionicons name="checkmark-circle" size={14} color="#2E7D32" />
-              <Text style={styles.verifiedText}> Người mua đã xác thực</Text>
+
+              <Ionicons
+                name="checkmark-circle"
+                size={14}
+                color="#2E7D32"
+              />
+
+              <Text style={styles.verifiedText}>
+                {' '}
+                Người mua đã xác thực
+              </Text>
+
             </View>
           )}
+
         </View>
 
-        {/* Menu */}
+        {/* MENU */}
+
         <View style={styles.menuCard}>
-          {MENU_ITEMS.map(function(item, index) {
-            const isLastItem = index === MENU_ITEMS.length - 1;
-            
+
+          {MENU_ITEMS.map(function (item, index) {
+
+            const isLastItem =
+              index === MENU_ITEMS.length - 1;
+
             return (
+
               <TouchableOpacity
                 key={item.id}
                 style={[
-                  styles.menuRow, 
-                  !isLastItem && styles.menuRowBorder
+                  styles.menuRow,
+                  !isLastItem && styles.menuRowBorder,
                 ]}
-                onPress={function() {
+                onPress={function () {
                   handleMenu(item.id);
                 }}
                 activeOpacity={0.7}
               >
-                <View style={[
-                  styles.menuIcon, 
-                  item.danger && styles.menuIconDanger
-                ]}>
-                  <Ionicons 
-                    name={item.icon} 
-                    size={20} 
-                    color={item.danger ? '#E53935' : '#2E7D32'} 
+
+                <View
+                  style={[
+                    styles.menuIcon,
+                    item.danger && styles.menuIconDanger,
+                  ]}
+                >
+
+                  <Ionicons
+                    name={item.icon}
+                    size={20}
+                    color={
+                      item.danger
+                        ? '#E53935'
+                        : '#2E7D32'
+                    }
                   />
+
                 </View>
-                
-                <Text style={[
-                  styles.menuLabel, 
-                  item.danger && styles.menuLabelDanger
-                ]}>
+
+                <Text
+                  style={[
+                    styles.menuLabel,
+                    item.danger && styles.menuLabelDanger,
+                  ]}
+                >
                   {item.label}
                 </Text>
-                
+
                 <View style={styles.menuRight}>
+
                   {item.id === 'vouchers' && (
+
                     <View style={styles.badge}>
-                      <Text style={styles.badgeText}>{user.points} Pts</Text>
+
+                      <Text style={styles.badgeText}>
+                        {user.points} Pts
+                      </Text>
+
                     </View>
                   )}
+
                   {!item.danger && (
-                    <Ionicons name="chevron-forward" size={18} color="#BDBDBD" />
+
+                    <Ionicons
+                      name="chevron-forward"
+                      size={18}
+                      color="#BDBDBD"
+                    />
                   )}
+
                 </View>
+
               </TouchableOpacity>
             );
           })}
+
         </View>
+
       </ScrollView>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#F8F8F8',
   },
+
   header: {
     backgroundColor: '#FFFFFF',
     paddingTop: 52,
@@ -216,11 +405,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
   },
+
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
   },
+
   avatarCircle: {
     width: 36,
     height: 36,
@@ -229,11 +420,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   brandName: {
     fontSize: 17,
     fontWeight: '700',
     color: '#1A1A1A',
   },
+
   profileCard: {
     backgroundColor: '#FFFFFF',
     margin: 16,
@@ -241,15 +434,20 @@ const styles = StyleSheet.create({
     padding: 24,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.05,
     shadowRadius: 10,
     elevation: 3,
   },
+
   avatarWrap: {
     position: 'relative',
     marginBottom: 14,
   },
+
   avatarBig: {
     width: 88,
     height: 88,
@@ -258,11 +456,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   avatarImg: {
     width: 88,
     height: 88,
     borderRadius: 44,
   },
+
   editBadge: {
     position: 'absolute',
     bottom: 2,
@@ -276,22 +476,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   userName: {
     fontSize: 20,
     fontWeight: '800',
     color: '#1A1A1A',
     textAlign: 'center',
   },
+
   userEmail: {
     fontSize: 13,
     color: '#888',
     marginBottom: 10,
     marginTop: 4,
   },
+
   nameEdit: {
     alignItems: 'center',
     width: '100%',
   },
+
   nameInput: {
     fontSize: 20,
     fontWeight: '800',
@@ -302,20 +506,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     minWidth: 200,
   },
+
   nameActions: {
     flexDirection: 'row',
     gap: 16,
     marginTop: 8,
   },
+
   cancelBtn: {
     fontSize: 14,
     color: '#888',
   },
+
   saveBtn: {
     fontSize: 14,
     color: '#2E7D32',
     fontWeight: '700',
   },
+
   verifiedPill: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -324,22 +532,28 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 20,
   },
+
   verifiedText: {
     fontSize: 12,
     color: '#2E7D32',
     fontWeight: '600',
   },
+
   menuCard: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 16,
     borderRadius: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.05,
     shadowRadius: 10,
     elevation: 3,
     overflow: 'hidden',
   },
+
   menuRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -347,10 +561,12 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     gap: 14,
   },
+
   menuRowBorder: {
     borderBottomWidth: 1,
     borderBottomColor: '#F5F5F5',
   },
+
   menuIcon: {
     width: 38,
     height: 38,
@@ -359,32 +575,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   menuIconDanger: {
     backgroundColor: '#FFF0F0',
   },
+
   menuLabel: {
     flex: 1,
     fontSize: 15,
     fontWeight: '600',
     color: '#1A1A1A',
   },
+
   menuLabelDanger: {
     color: '#E53935',
   },
+
   menuRight: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
+
   badge: {
     backgroundColor: '#2E7D32',
     paddingHorizontal: 10,
     paddingVertical: 3,
     borderRadius: 12,
   },
+
   badgeText: {
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '700',
   },
+
 });
