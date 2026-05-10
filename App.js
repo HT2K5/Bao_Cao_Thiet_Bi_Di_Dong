@@ -1,21 +1,23 @@
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import Onboarding from "./Onboarding";
-import LoginAndSignUp from "./LoginAndSignUp";
-import Home from "./Home";
-
-const Stack = createNativeStackNavigator();
-
+import 'react-native-gesture-handler';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { CartProvider } from './src/context/CartContext';
+import RootNavigator from './src/navigation/RootNavigator';
+import { OrderProvider } from './src/context/OrderContext';
+import { UserProvider } from './src/context/UserContext';
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Onboarding" component={Onboarding} />
-        <Stack.Screen name="LoginAndSignUp" component={LoginAndSignUp} />
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <UserProvider>
+        <OrderProvider>
+          <CartProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </CartProvider>
+        </OrderProvider>
+      </UserProvider>
+    </GestureHandlerRootView>
   );
 }

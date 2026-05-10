@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
@@ -6,26 +6,24 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-} from "react-native";
+} from 'react-native';
 
 export default function Onboarding({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      
       {/* IMAGE */}
       <Image
-        source={require("./assets/images/Background.png")}
+        source={require('../../assets/images/Background.png')}
         style={styles.image}
       />
 
       {/* TEXT */}
       <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          Fresh from farm to your table
-        </Text>
+        <Text style={styles.title}>Fresh from farm to your table</Text>
 
         <Text style={styles.desc}>
-          Discover hand-picked, organic produce delivered locally within 24 hours.
+          Discover hand-picked, organic produce delivered locally within 24
+          hours.
         </Text>
 
         {/* DOTS */}
@@ -39,11 +37,10 @@ export default function Onboarding({ navigation }) {
       {/* BUTTON */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("LoginAndSignUp")}
+        onPress={() => navigation.navigate('LoginAndSignUp')}
       >
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
-
     </SafeAreaView>
   );
 }
@@ -51,16 +48,16 @@ export default function Onboarding({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    overflow: "hidden", // để bo góc ảnh
+    backgroundColor: '#fff',
+    overflow: 'hidden', // để bo góc ảnh
   },
 
   /* IMAGE */
   image: {
-    width: "100%",
-    height: "65%",
-    resizeMode: "cover",
-    alignSelf: "center",
+    width: '100%',
+    height: '65%',
+    resizeMode: 'cover',
+    alignSelf: 'center',
     marginTop: -40,
 
     borderBottomLeftRadius: 35,
@@ -71,20 +68,20 @@ const styles = StyleSheet.create({
   textContainer: {
     paddingHorizontal: 20,
     marginTop: 30,
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   title: {
     fontSize: 24,
-    fontWeight: "700",
-    textAlign: "center",
+    fontWeight: '700',
+    textAlign: 'center',
     lineHeight: 30,
   },
 
   desc: {
-    width: "80%",
-    textAlign: "center",
-    color: "#777",
+    width: '80%',
+    textAlign: 'center',
+    color: '#777',
     marginTop: 12,
     lineHeight: 20,
     fontSize: 14,
@@ -92,8 +89,8 @@ const styles = StyleSheet.create({
 
   /* DOTS */
   dots: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 70,
   },
 
@@ -101,29 +98,29 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#ccc",
+    backgroundColor: '#ccc',
     marginHorizontal: 4,
   },
 
   activeDot: {
-    backgroundColor: "#1B5E20",
+    backgroundColor: '#1B5E20',
     width: 16,
   },
 
   /* BUTTON */
   button: {
-    backgroundColor: "#1B5E20",
+    backgroundColor: '#1B5E20',
     padding: 16,
     borderRadius: 30,
-    alignItems: "center",
+    alignItems: 'center',
     marginHorizontal: 20,
     marginTop: 50,
     elevation: 3,
   },
 
   buttonText: {
-    color: "#fff",
-    fontWeight: "700",
+    color: '#fff',
+    fontWeight: '700',
     fontSize: 16,
   },
 });
