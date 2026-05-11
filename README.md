@@ -195,7 +195,6 @@ farmdirect/
     get-products.php
 ```
 
->>>>>>> develop
 ## API sử dụng
 
 Ứng dụng đang lấy dữ liệu danh mục và sản phẩm từ API nội bộ:
@@ -243,7 +242,6 @@ npm run web
 - Giỏ hàng và đơn hàng được quản lý bằng Context API trong runtime của ứng dụng.
 - Tài khoản đăng nhập/đăng ký đang được lưu bằng AsyncStorage.
 - Một số dữ liệu phụ như danh mục trang chủ, sản phẩm nổi bật, phương thức giao hàng và thanh toán nằm trong `src/data/tempdata.js`.
-<<<<<<< HEAD
 
 =======
 >>>>>>> develop
