@@ -1,17 +1,29 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "cong",
     "slug": "cong",
+=======
+    "name": "BaoCaoTest",
+    "slug": "BaoCaoTest",
+>>>>>>> develop
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+<<<<<<< HEAD
     "newArchEnabled": true,
+=======
+
+    "newArchEnabled": false,
+
+>>>>>>> develop
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+<<<<<<< HEAD
     "ios": {
       "supportsTablet": true
     },
@@ -25,5 +37,23 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
+=======
+
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.congpham.baocaotest"
+    },
+
+    "android": {
+      "usesCleartextTraffic": true,
+      "package": "com.congpham.baocaotest"
+    },
+
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+
+    "plugins": ["expo-web-browser"]
+>>>>>>> develop
   }
 }

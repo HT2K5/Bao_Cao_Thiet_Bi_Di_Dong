@@ -126,6 +126,7 @@ Nội dung làm chung:
 8. Sau khi đặt hàng, đơn hàng được lưu vào lịch sử đơn hàng.
 9. Người dùng có thể xem hồ sơ cá nhân hoặc đăng xuất.
 
+<<<<<<< HEAD
 
 📱 Screenshots
 
@@ -153,6 +154,8 @@ Giao diện theo dõi đơn hàng
 Giao diện Profile
 <img width="1125" height="2436" alt="image" src="https://github.com/user-attachments/assets/9ddd0e46-f921-4b47-ad8e-34475bef2381" />
 
+=======
+>>>>>>> develop
 ## Công nghệ sử dụng
 
 - React Native
@@ -165,6 +168,34 @@ Giao diện Profile
 - Ionicons
 - PHP API nội bộ
 - MySQL database
+<<<<<<< HEAD
+=======
+
+## Cấu trúc thư mục chính
+
+```text
+src/
+  components/
+    cards/
+  config/
+  context/
+  data/
+  navigation/
+  screens/
+
+assets/
+  images/
+
+database/
+  farmdirect.sql
+
+farmdirect/
+  api/
+    get-categories.php
+    get-products.php
+```
+
+>>>>>>> develop
 ## API sử dụng
 
 Ứng dụng đang lấy dữ liệu danh mục và sản phẩm từ API nội bộ:
@@ -212,4 +243,7 @@ npm run web
 - Giỏ hàng và đơn hàng được quản lý bằng Context API trong runtime của ứng dụng.
 - Tài khoản đăng nhập/đăng ký đang được lưu bằng AsyncStorage.
 - Một số dữ liệu phụ như danh mục trang chủ, sản phẩm nổi bật, phương thức giao hàng và thanh toán nằm trong `src/data/tempdata.js`.
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
