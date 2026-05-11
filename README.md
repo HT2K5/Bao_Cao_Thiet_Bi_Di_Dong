@@ -1,78 +1,131 @@
-🌟 Giới Thiệu
-FarmDirect là ứng dụng di động giúp người dùng mua sắm nông sản tươi sạch, hoa quả, rau củ trực tiếp từ nông trại với giá tốt nhất. Ứng dụng mang đến trải nghiệm mua sắm tiện lợi, nhanh chóng và an toàn.
-Đặc điểm nổi bật:
+# FarmDirect
 
-🛒 Giỏ hàng thông minh với swipe-to-delete
-💳 Đa dạng phương thức thanh toán
-📦 Theo dõi đơn hàng real-time
-👤 Quản lý tài khoản cá nhân
-🎨 Giao diện thân thiện, dễ sử dụng
+FarmDirect là ứng dụng bán nông sản được xây dựng bằng React Native và Expo. Ứng dụng cho phép người dùng xem sản phẩm theo danh mục, tìm kiếm sản phẩm, xem chi tiết sản phẩm, thêm vào giỏ hàng, thanh toán, theo dõi đơn hàng và quản lý thông tin cá nhân.
 
+## Thành viên và phân công công việc
 
-✨ Tính Năng
-1. 🛒 Giỏ Hàng (Shopping Cart)
+### Công
 
-Thêm/xóa sản phẩm dễ dàng
-Vuốt sang phải để xóa sản phẩm
-Điều chỉnh số lượng trực tiếp
-Tính tổng tiền tự động
-Áp dụng mã khuyến mãi
+Phụ trách luồng danh mục và sản phẩm:
 
-2. 💳 Thanh Toán (Checkout)
+- `src/screens/CategoryScreen.js`
+- `src/screens/ProductListing.js`
+- `src/screens/ProductDetail.js`
 
-Chọn địa chỉ giao hàng từ danh sách đã lưu
-Thêm địa chỉ mới nhanh chóng
-Lựa chọn phương thức giao hàng:
+Các chức năng đã thực hiện:
 
-✅ Tiêu chuẩn (Miễn phí, 3-5 ngày)
-🚀 Giao nhanh ($5.00, 1-2 ngày)
+- Xây dựng màn hình danh mục sản phẩm.
+- Gọi API lấy danh mục và sản phẩm.
+- Lọc sản phẩm theo danh mục đang chọn.
+- Gom sản phẩm theo nhóm để hiển thị trên màn hình danh mục.
+- Tìm kiếm sản phẩm và điều hướng sang danh sách kết quả.
+- Xây dựng màn hình danh sách sản phẩm theo danh mục, nhóm hoặc từ khóa.
+- Tạo chip lọc sản phẩm theo tên.
+- Hiển thị sản phẩm nổi bật và danh sách sản phẩm dạng lưới.
+- Điều hướng sang màn hình chi tiết sản phẩm.
+- Xây dựng màn hình chi tiết sản phẩm.
+- Hiển thị ảnh, tên, giá, mô tả, thông tin nông trại và dinh dưỡng.
+- Tạo chức năng chọn số lượng và thêm sản phẩm vào giỏ hàng.
 
+### Hiền
 
-Nhiều phương thức thanh toán:
+Phụ trách luồng mở đầu, đăng nhập, đăng ký và trang chủ:
 
-💳 Thẻ tín dụng
-📱 MoMo Wallet
-💵 Thanh toán khi nhận hàng (COD)
+- `src/screens/Onboarding.js`
+- `src/screens/LoginAndSignUp.js`
+- `src/screens/HomeScreen.js`
 
+Các chức năng đã thực hiện:
 
-Tính toán chi tiết: Tạm tính + Phí ship + Thuế
+- Xây dựng màn hình onboarding giới thiệu ứng dụng.
+- Điều hướng từ onboarding sang màn hình đăng nhập/đăng ký.
+- Xây dựng giao diện đăng nhập và đăng ký.
+- Validate email, mật khẩu và nhập lại mật khẩu.
+- Lưu tài khoản và trạng thái đăng nhập bằng AsyncStorage.
+- Kiểm tra trạng thái đăng nhập để chuyển vào màn hình chính.
+- Xây dựng màn hình trang chủ.
+- Gọi API lấy danh sách sản phẩm.
+- Hiển thị banner, danh mục, sản phẩm nổi bật và danh sách sản phẩm.
+- Tìm kiếm sản phẩm trên trang chủ.
+- Điều hướng từ trang chủ sang danh sách hoặc chi tiết sản phẩm.
 
-3. 👤 Trang Cá Nhân (Profile)
+### Hiếu
 
-Thay đổi ảnh đại diện từ thư viện
-Chỉnh sửa thông tin cá nhân
-Xem trạng thái xác thực
-Menu điều hướng:
+Phụ trách các màn hình còn lại:
 
-📋 Lịch sử đơn hàng
-📍 Địa chỉ đã lưu
-🎁 Ưu đãi của tôi
-⚙️ Cài đặt
-🚪 Đăng xuất
+- `src/screens/CartScreen.js`
+- `src/screens/CheckOutScreen.js`
+- `src/screens/OrderScreen.js`
+- `src/screens/ProfileScreen.js`
 
+Các chức năng đã thực hiện:
 
+- Xây dựng màn hình giỏ hàng.
+- Hiển thị danh sách sản phẩm trong giỏ.
+- Cho phép xóa sản phẩm và cập nhật số lượng sản phẩm.
+- Tính tạm tính, phí vận chuyển, hỗ trợ và tổng tiền.
+- Xây dựng màn hình thanh toán.
+- Chọn địa chỉ, phương thức giao hàng và phương thức thanh toán.
+- Xử lý đặt hàng thành công.
+- Xây dựng màn hình lịch sử đơn hàng.
+- Xây dựng màn hình hồ sơ cá nhân.
+- Cập nhật ảnh đại diện, đổi tên hiển thị và đăng xuất.
 
-4. 📦 Lịch Sử Đơn Hàng (Order History)
+### Phần làm chung
 
-Xem tất cả đơn hàng đã đặt
-Phân loại theo trạng thái:
+Các phần ngoài màn hình được cả nhóm cùng thực hiện và chỉnh sửa:
 
-✅ Đã giao hàng (màu xanh)
-🚚 Đang giao (màu cam)
-❌ Đã hủy (màu đỏ)
+- `src/navigation/RootNavigator.js`
+- `src/navigation/BottomTab.js`
+- `src/navigation/CategoryStack.js`
+- `src/context/CartContext.js`
+- `src/context/OrderContext.js`
+- `src/context/UserContext.js`
+- `src/components/`
+- `src/data/tempdata.js`
+- `src/config/`
+- `assets/`
+- `database/farmdirect.sql`
+- `farmdirect/api/`
 
+Nội dung làm chung:
 
-Xem chi tiết từng đơn hàng
-Đặt lại đơn hàng đã hoàn thành
+- Cấu hình điều hướng toàn ứng dụng.
+- Xây dựng bottom tab cho các màn hình chính.
+- Kết nối các màn hình với nhau bằng React Navigation.
+- Quản lý dữ liệu giỏ hàng, đơn hàng và người dùng bằng Context API.
+- Xây dựng các component dùng lại như card sản phẩm và card đơn hàng.
+- Chuẩn bị dữ liệu tạm, hình ảnh, icon và tài nguyên giao diện.
+- Chuẩn bị database và PHP API để lấy danh mục, sản phẩm.
+- Kiểm tra luồng hoạt động giữa các màn hình.
 
-5. 📄 Chi Tiết Đơn Hàng (Order Detail)
+## Chức năng chính của ứng dụng
 
-Thông tin đầy đủ về đơn hàng
-Danh sách sản phẩm với số lượng và giá
-Địa chỉ giao hàng
-Phương thức giao hàng và thanh toán
-Tổng tiền chi tiết
-Nút "Đặt lại đơn hàng" cho đơn hàng đã giao
+- Onboarding giới thiệu ứng dụng.
+- Đăng ký và đăng nhập tài khoản.
+- Trang chủ hiển thị sản phẩm và danh mục nổi bật.
+- Xem danh mục sản phẩm.
+- Xem danh sách sản phẩm theo danh mục, nhóm hoặc từ khóa.
+- Xem chi tiết sản phẩm.
+- Thêm sản phẩm vào giỏ hàng.
+- Cập nhật số lượng hoặc xóa sản phẩm trong giỏ.
+- Thanh toán đơn hàng.
+- Lưu và hiển thị lịch sử đơn hàng.
+- Quản lý hồ sơ cá nhân.
+- Đăng xuất tài khoản.
+
+## Luồng sử dụng
+
+1. Người dùng mở ứng dụng và xem màn hình onboarding.
+2. Người dùng đăng ký hoặc đăng nhập.
+3. Sau khi đăng nhập, ứng dụng chuyển vào màn hình chính.
+4. Người dùng xem sản phẩm ở trang chủ hoặc danh mục.
+5. Người dùng chọn sản phẩm để xem chi tiết.
+6. Người dùng thêm sản phẩm vào giỏ hàng.
+7. Người dùng kiểm tra giỏ hàng và tiến hành thanh toán.
+8. Sau khi đặt hàng, đơn hàng được lưu vào lịch sử đơn hàng.
+9. Người dùng có thể xem hồ sơ cá nhân hoặc đăng xuất.
+
 
 📱 Screenshots
 
@@ -100,58 +153,63 @@ Giao diện theo dõi đơn hàng
 Giao diện Profile
 <img width="1125" height="2436" alt="image" src="https://github.com/user-attachments/assets/9ddd0e46-f921-4b47-ad8e-34475bef2381" />
 
-🛠 Công Nghệ
-Frontend Framework
+## Công nghệ sử dụng
 
-React Native 0.81.5 - Framework phát triển mobile
-Expo ~54.0 - Platform phát triển và triển khai
-React 19.1.0 - UI Library
+- React Native
+- Expo
+- React Navigation
+- React Context API
+- AsyncStorage
+- Expo Image Picker
+- React Native Gesture Handler
+- Ionicons
+- PHP API nội bộ
+- MySQL database
+## API sử dụng
 
-Navigation
+Ứng dụng đang lấy dữ liệu danh mục và sản phẩm từ API nội bộ:
 
-React Navigation 7.x - Điều hướng ứng dụng
+- `http://192.168.1.101/farmdirect/api/get-categories.php`
+- `http://192.168.1.101/farmdirect/api/get-products.php`
 
-Stack Navigator - Điều hướng chính
-Bottom Tabs Navigator - Menu dưới cùng
-Native Stack Navigator - Hiệu suất cao
+Khi chạy trên máy hoặc mạng khác, cần đổi địa chỉ IP API cho đúng với môi trường đang sử dụng.
 
+## Cách chạy dự án
 
+Cài dependencies:
 
-State Management
+```bash
+npm install
+```
 
-Context API - Quản lý state toàn cục
+Chạy ứng dụng:
 
-CartContext - Quản lý giỏ hàng
-OrderContext - Quản lý đơn hàng
-UserContext - Quản lý thông tin người dùng
+```bash
+npm start
+```
 
+Chạy trên Android:
 
+```bash
+npm run android
+```
 
-Data Persistence
+Chạy trên iOS:
 
-AsyncStorage 2.2.0 - Lưu trữ dữ liệu local
+```bash
+npm run ios
+```
 
-Lưu lịch sử đơn hàng
-Cache thông tin người dùng
+Chạy trên web:
 
+```bash
+npm run web
+```
 
+## Ghi chú
 
-UI/UX Libraries
+- Dữ liệu sản phẩm và danh mục được lấy từ PHP API.
+- Giỏ hàng và đơn hàng được quản lý bằng Context API trong runtime của ứng dụng.
+- Tài khoản đăng nhập/đăng ký đang được lưu bằng AsyncStorage.
+- Một số dữ liệu phụ như danh mục trang chủ, sản phẩm nổi bật, phương thức giao hàng và thanh toán nằm trong `src/data/tempdata.js`.
 
-expo-image-picker ~17.0.11 - Chọn ảnh từ thư viện
-react-native-gesture-handler ~2.28.0 - Xử lý cử chỉ (swipe-to-delete)
-react-native-reanimated ~4.1.1 - Animation mượt mà
-@expo/vector-icons - Icon set đa dạng
-
-Backend Integration
-
-Firebase ^12.12.1 - Authentication & Database
-
-
-🚀 Cài Đặt
-Yêu Cầu Hệ Thống
-
-Node.js >= 18.x
-npm hoặc yarn
-Expo CLI
-iOS Simulator (Mac) hoặc Android Studio (Windows/Mac/Linux)
