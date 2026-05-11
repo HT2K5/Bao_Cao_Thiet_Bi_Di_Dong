@@ -153,6 +153,7 @@ Giao diện theo dõi đơn hàng
 Giao diện Profile
 <img width="1125" height="2436" alt="image" src="https://github.com/user-attachments/assets/9ddd0e46-f921-4b47-ad8e-34475bef2381" />
 
+
 ## Công nghệ sử dụng
 
 - React Native
@@ -165,6 +166,7 @@ Giao diện Profile
 - Ionicons
 - PHP API nội bộ
 - MySQL database
+
 ## API sử dụng
 
 Ứng dụng đang lấy dữ liệu danh mục và sản phẩm từ API nội bộ:
