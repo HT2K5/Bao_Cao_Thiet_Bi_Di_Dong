@@ -126,7 +126,6 @@ Nội dung làm chung:
 8. Sau khi đặt hàng, đơn hàng được lưu vào lịch sử đơn hàng.
 9. Người dùng có thể xem hồ sơ cá nhân hoặc đăng xuất.
 
-<<<<<<< HEAD
 
 📱 Screenshots
 
