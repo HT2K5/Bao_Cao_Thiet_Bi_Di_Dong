@@ -265,4 +265,4 @@ Khi chạy trên máy hoặc mạng khác, cần cập nhật địa chỉ IP AP
 
 
 ## Demo Video
-https://drive.google.com/file/d/1jgw8tJ7yzJ37x7iBH_TQz-nL1UOxSGPi/view
+[https://drive.google.com/file/d/1jgw8tJ7yzJ37x7iBH_TQz-nL1UOxSGPi/view](https://drive.google.com/file/d/1eFi3AC5f9ABGS78ZWHj6FofIfFjjwBRm/view?usp=sharing)
