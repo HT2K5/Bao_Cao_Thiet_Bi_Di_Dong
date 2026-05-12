@@ -1,10 +1,10 @@
-# FarmDirect
-
-FarmDirect là ứng dụng bán nông sản được xây dựng bằng React Native và Expo. Ứng dụng cho phép người dùng xem sản phẩm theo danh mục, tìm kiếm sản phẩm, xem chi tiết sản phẩm, thêm vào giỏ hàng, thanh toán, theo dõi đơn hàng và quản lý thông tin cá nhân.
+## FarmDirect - Phát Triển Ứng Dụng Di Động Bán Lẻ Thực Phẩm Tươi Sống
+📋 Giới thiệu
+FarmDirect là ứng dụng di động bán lẻ thực phẩm tươi sống, kết nối người tiêu dùng với các sản phẩm nông sản tươi ngon từ các trang trại địa phương. Ứng dụng được xây dựng bằng React Native và Expo, mang đến trải nghiệm mua sắm thuận tiện, nhanh chóng và minh bạch cho người dùng.
 
 ## Thành viên và phân công công việc
 
-### Công
+### Phạm Trần Thành Công - 23810310233
 
 Phụ trách luồng danh mục và sản phẩm:
 
@@ -27,7 +27,7 @@ Các chức năng đã thực hiện:
 - Hiển thị ảnh, tên, giá, mô tả, thông tin nông trại và dinh dưỡng.
 - Tạo chức năng chọn số lượng và thêm sản phẩm vào giỏ hàng.
 
-### Hiền
+### Nguyễn Thị Thu Hiền - 23810310182
 
 Phụ trách luồng mở đầu, đăng nhập, đăng ký và trang chủ:
 
@@ -49,8 +49,7 @@ Các chức năng đã thực hiện:
 - Tìm kiếm sản phẩm trên trang chủ.
 - Điều hướng từ trang chủ sang danh sách hoặc chi tiết sản phẩm.
 
-### Hiếu
-
+### Trần Minh Hiếu - 23810310175
 Phụ trách các màn hình còn lại:
 
 - `src/screens/CartScreen.js`
@@ -155,63 +154,115 @@ Giao diện Profile
 
 
 ## Công nghệ sử dụng
+Frontend
 
-- React Native
-- Expo
-- React Navigation
-- React Context API
-- AsyncStorage
-- Expo Image Picker
-- React Native Gesture Handler
-- Ionicons
-- PHP API nội bộ
-- MySQL database
+React Native - Framework phát triển ứng dụng di động
+Expo - Nền tảng phát triển React Native
+React Navigation - Thư viện điều hướng
+React Context API - Quản lý state toàn cục
+AsyncStorage - Lưu trữ dữ liệu local
+Expo Image Picker - Chọn và upload ảnh
+React Native Gesture Handler - Xử lý cử chỉ người dùng
+Ionicons - Thư viện icon
 
-## API sử dụng
+Backend
 
-Ứng dụng đang lấy dữ liệu danh mục và sản phẩm từ API nội bộ:
+PHP - Ngôn ngữ lập trình backend
+MySQL - Hệ quản trị cơ sở dữ liệu
+REST API - Kiến trúc API
 
-- `http://192.168.1.101/farmdirect/api/get-categories.php`
-- `http://192.168.1.101/farmdirect/api/get-products.php`
+Tools & Libraries
+
+Node.js & npm - Quản lý package
+Git & GitHub - Version control
+Expo Go - Test trên thiết bị thật
+
+## API Endpoints
+Categories API
+GET http://[YOUR_IP]/farmdirect/api/get-categories.php
+
+Products API
+GET http://[YOUR_IP]/farmdirect/api/get-products.php
 
 Khi chạy trên máy hoặc mạng khác, cần đổi địa chỉ IP API cho đúng với môi trường đang sử dụng.
 
-## Cách chạy dự án
+## Hướng dẫn cài đặt
+Yêu cầu hệ thống
 
-Cài dependencies:
+Node.js (phiên bản 14 trở lên)
+npm hoặc yarn
+Expo CLI
+Thiết bị Android/iOS hoặc emulator
+XAMPP/WAMP (cho PHP và MySQL)
 
-```bash
-npm install
-```
+Bước 1: Clone repository
+bashgit clone https://github.com/[your-username]/farmdirect.git
+cd farmdirect
+Bước 2: Cài đặt dependencies
+bashnpm install
+Bước 3: Cấu hình Backend (PHP & MySQL)
 
-Chạy ứng dụng:
+Cài đặt XAMPP/WAMP và khởi động Apache + MySQL
+Import database:
 
-```bash
-npm start
-```
+Mở phpMyAdmin (http://localhost/phpmyadmin)
+Tạo database mới tên farmdirect
+Import file database/farmdirect.sql
 
+
+Cấu hình API:
+
+Copy thư mục farmdirect/api/ vào thư mục htdocs (XAMPP) hoặc www (WAMP)
+Mở file config và cập nhật thông tin database nếu cần
+
+
+Cập nhật địa chỉ IP API:
+
+Tìm địa chỉ IP local của máy (Windows: ipconfig, Mac/Linux: ifconfig)
+Cập nhật địa chỉ IP trong các file cấu hình API:
+
+src/config/api.js (nếu có)
+Hoặc tìm và thay thế 192.168.1.101 bằng IP của bạn
+
+
+
+
+
+
+## Hướng dẫn chạy project
+Khởi động Backend
+
+Mở XAMPP/WAMP và start Apache + MySQL
+Kiểm tra API hoạt động:
+
+Categories: http://[YOUR_IP]/farmdirect/api/get-categories.php
+Products: http://[YOUR_IP]/farmdirect/api/get-products.php
+
+
+
+Chạy ứng dụng
+Khởi động Expo:
+bashnpm start
 Chạy trên Android:
-
-```bash
-npm run android
-```
-
+bashnpm run android
 Chạy trên iOS:
+bashnpm run ios
+Chạy trên Web:
+bashnpm run web
+Chạy trên thiết bị thật:
 
-```bash
-npm run ios
-```
-
-Chạy trên web:
-
-```bash
-npm run web
-```
+Cài đặt app Expo Go trên điện thoại
+Quét QR code từ terminal/browser
+Đảm bảo điện thoại và máy tính cùng mạng WiFi
 
 ## Ghi chú
 
-- Dữ liệu sản phẩm và danh mục được lấy từ PHP API.
-- Giỏ hàng và đơn hàng được quản lý bằng Context API trong runtime của ứng dụng.
-- Tài khoản đăng nhập/đăng ký đang được lưu bằng AsyncStorage.
-- Một số dữ liệu phụ như danh mục trang chủ, sản phẩm nổi bật, phương thức giao hàng và thanh toán nằm trong `src/data/tempdata.js`.
+Dữ liệu sản phẩm và danh mục được lấy từ PHP API
+Giỏ hàng và đơn hàng được quản lý bằng Context API (chỉ tồn tại trong runtime)
+Tài khoản đăng nhập/đăng ký lưu bằng AsyncStorage trên thiết bị
+Một số dữ liệu phụ (banner, phương thức thanh toán,...) nằm trong tempdata.js
+Khi chạy trên máy hoặc mạng khác, cần cập nhật địa chỉ IP API
 
+
+## Demo Video
+https://drive.google.com/file/d/1jgw8tJ7yzJ37x7iBH_TQz-nL1UOxSGPi/view
